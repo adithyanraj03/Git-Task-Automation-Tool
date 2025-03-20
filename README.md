@@ -168,7 +168,8 @@ For best results when working with large repositories:
 
 - Report issues on [GitHub Issues](https://github.com/adithyanraj03/Git-Task-Automation-Tool/issues)
 - Submit feature requests through the repository
-- Contact the developer at [email](adithyanraj03@gmail.com)
+- Contact the developer clcik [email](https://mail.google.com/mail/?view=cm&fs=1&to=adithyanraj03@gmail.com&su=Git%20Task%20Automation%20Tool&body=Hello%20Developer%20Adithya,%0A%0AI%20came%20across%20your%20Git%20repository%20for%20the%20Git%20Task%20Automation%20Tool%20and%20wanted%20to%20reach%20out.%0A%0AI'm%20interested%20in%20discussing%20some%20ideas.%0A%0ABest,%0A[Your%20Name])
+  
 
 ### 👥 Contributors
 
