@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Change from Content to Resource for proper embedding -->
+    <Resource Include="obj\logo.png">
+      <LogicalName>logo.png</LogicalName>
+    </Resource>
+  </ItemGroup>
+  
+  <!-- Build-time integrity verification -->
+  <Target Name="VerifyIntegrity" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <AuthorName>Adithyanraj</AuthorName>
+      <LogoPath>$(MSBuildProjectDirectory)\obj\logo.png</LogoPath>
+    </PropertyGroup>
+    
+    <!-- Check if logo file exists -->
+    <Error Condition="!Exists('$(LogoPath)')" 
+           Text="Build failed: Required logo file not found at '$(LogoPath)'" />
+    
+    <!-- Check source files for author credit -->
+    <ReadLinesFromFile File="$(MSBuildProjectDirectory)\MainWindow.xaml">
+      <Output TaskParameter="Lines" ItemName="XamlContent" />
+    </ReadLinesFromFile>
+    
+    <ReadLinesFromFile File="$(MSBuildProjectDirectory)\MainWindow.xaml.cs">
+      <Output TaskParameter="Lines" ItemName="CodeContent" />
+    </ReadLinesFromFile>
+    
+    <!-- Create properties for content verification -->
+    <PropertyGroup>
+      <XamlString>@(XamlContent)</XamlString>
+      <CodeString>@(CodeContent)</CodeString>
+    </PropertyGroup>
+    
+    <!-- Verify title contains author name -->
+    <Error Condition="!$(XamlString.Contains('$(AuthorName)'))" 
+           Text="Build failed: Author credit must be preserved in XAML" />
+           
+    <!-- Verify code contains author name -->
+    <Error Condition="!$(CodeString.Contains('$(AuthorName)'))" 
+           Text="Build failed: Author credit must be preserved in code" />
+           
+    <Message Text="Application integrity verified" Importance="high" />
+  </Target>
+
+</Project>

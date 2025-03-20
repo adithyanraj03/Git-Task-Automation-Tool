@@ -1,0 +1,396 @@
+<Window x:Class="GitAutomationTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GitAutomationTool"
+        mc:Ignorable="d"
+        Title="Git Automation Tool - by Adithyanraj" Height="720" Width="800"
+        Background="#2E3440"
+        Icon="pack://application:,,,/logo.png">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- Title -->
+            <RowDefinition Height="Auto"/>  <!-- Mode Selection -->
+            <RowDefinition Height="Auto"/>  <!-- Source Folder -->
+            <RowDefinition Height="Auto"/>  <!-- Git Repo -->
+            <RowDefinition Height="Auto"/>  <!-- Batch Settings -->
+            <RowDefinition Height="Auto"/>  <!-- Full Settings -->
+            <RowDefinition Height="Auto"/>  <!-- Selection Frame -->
+            <RowDefinition Height="Auto"/>  <!-- Counters -->
+            <RowDefinition Height="Auto"/>  <!-- Progress Bar -->
+            <RowDefinition Height="Auto"/>  <!-- Status Label -->
+            <RowDefinition Height="*"/>     <!-- Log Area -->
+            <RowDefinition Height="Auto"/>  <!-- Loading Animation -->
+            <RowDefinition Height="Auto"/>  <!-- Start Button -->
+            <RowDefinition Height="200"/>   <!-- Animation Canvas -->
+        </Grid.RowDefinitions>
+        
+        <!-- Title -->
+        <TextBlock Grid.Row="0" 
+                   Text="Git Automation Assistant" 
+                   FontSize="24" 
+                   FontWeight="Bold" 
+                   Foreground="#88C0D0"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,20">
+            <TextBlock.ToolTip>
+                <ToolTip>
+                    <TextBlock Text="Git Automation Tool created by Adithyanraj" />
+                </ToolTip>
+            </TextBlock.ToolTip>
+        </TextBlock>
+        
+        <!-- Mode Selection -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,10">
+            <TextBlock Text="Operation Mode:" 
+                       FontSize="12" 
+                       VerticalAlignment="Center" 
+                       Foreground="#ECEFF4"
+                       Margin="0,0,10,0"/>
+            
+            <RadioButton Content="Batch Mode" 
+                         IsChecked="{Binding OperationMode, Mode=TwoWay, 
+                                   Converter={StaticResource EnumToBooleanConverter}, 
+                                   ConverterParameter=batch}"
+                         Foreground="#ECEFF4"/>
+            
+            <RadioButton Content="Full Folder Mode" 
+                         IsChecked="{Binding OperationMode, Mode=TwoWay, 
+                                   Converter={StaticResource EnumToBooleanConverter}, 
+                                   ConverterParameter=full}"
+                         Foreground="#ECEFF4"
+                         Margin="15,0,0,0"/>
+        </StackPanel>
+        
+        <!-- Source Folder -->
+        <Grid Grid.Row="2" Margin="0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" 
+                       Text="Source Folder:" 
+                       FontSize="12" 
+                       VerticalAlignment="Center"
+                       Foreground="#ECEFF4"
+                       Margin="0,0,10,0"/>
+            
+            <TextBox Grid.Column="1" 
+                     Text="{Binding SourceFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="12"
+                     Background="#3B4252"
+                     Foreground="#ECEFF4"
+                     Margin="0,0,10,0"
+                     Padding="5,3"/>
+            
+            <Button Grid.Column="2" 
+                    Content="Browse" 
+                    Click="BrowseSourceFolder_Click"
+                    Background="#4C566A"
+                    Foreground="#ECEFF4"
+                    Padding="10,5"
+                    BorderThickness="0"/>
+        </Grid>
+        
+        <!-- Git Repo -->
+        <Grid Grid.Row="3" Margin="0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" 
+                       Text="Git Repository:" 
+                       FontSize="12" 
+                       VerticalAlignment="Center"
+                       Foreground="#ECEFF4"
+                       Margin="0,0,10,0"/>
+            
+            <TextBox Grid.Column="1" 
+                     Text="{Binding GitRepoFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="12"
+                     Background="#3B4252"
+                     Foreground="#ECEFF4"
+                     Margin="0,0,10,0"
+                     Padding="5,3"/>
+            
+            <Button Grid.Column="2" 
+                    Content="Browse" 
+                    Click="BrowseGitRepo_Click"
+                    Background="#4C566A"
+                    Foreground="#ECEFF4"
+                    Padding="10,5"
+                    BorderThickness="0"/>
+        </Grid>
+        
+        <!-- Batch Settings -->
+        <Grid x:Name="BatchSettingsPanel" Grid.Row="4" Margin="0,10" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" 
+                       Text="Batch Size:" 
+                       FontSize="12" 
+                       Foreground="#ECEFF4"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0"/>
+            
+            <TextBox x:Name="BatchSizeTextBox" 
+                     Grid.Column="1" 
+                     Text="{Binding BatchSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Width="50"
+                     FontSize="12"
+                     Background="#3B4252"
+                     Foreground="#ECEFF4"
+                     Padding="5,3"
+                     Margin="0,0,20,0"/>
+            
+            <TextBlock Grid.Column="2" 
+                       Text="Commit Message:" 
+                       FontSize="12" 
+                       Foreground="#ECEFF4"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0"/>
+            
+            <TextBox Grid.Column="3" 
+                     Text="{Binding CommitMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="12"
+                     Background="#3B4252"
+                     Foreground="#ECEFF4"
+                     Padding="5,3"/>
+        </Grid>
+        
+        <!-- Full Settings -->
+        <Grid x:Name="FullSettingsPanel" Grid.Row="5" Margin="0,10" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" 
+                       Text="Commit Message:" 
+                       FontSize="12" 
+                       Foreground="#ECEFF4"
+                       VerticalAlignment="Center"
+                       Margin="0,0,10,0"/>
+            
+            <TextBox Grid.Column="1" 
+                     Text="{Binding FullCommitMessage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     FontSize="12"
+                     Background="#3B4252"
+                     Foreground="#ECEFF4"
+                     Padding="5,3"/>
+        </Grid>
+        
+        <!-- Selection Frame -->
+        <Grid x:Name="SelectionPanel" Grid.Row="6" Margin="0,10" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0"
+                       Text="Select Items to Process:"
+                       FontSize="12"
+                       FontWeight="Bold"
+                       Foreground="#ECEFF4"
+                       Margin="0,0,0,5"/>
+            
+            <Border Grid.Row="1"
+                    Background="#3B4252"
+                    BorderBrush="#4C566A"
+                    BorderThickness="1"
+                    Margin="0,5">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Height="150">
+                    <ItemsControl ItemsSource="{Binding FileItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="5,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <CheckBox Grid.Column="0"
+                                              IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              VerticalAlignment="Center"
+                                              Margin="5,0"/>
+                                    
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding IconText}"
+                                               FontSize="12"
+                                               Foreground="#ECEFF4"
+                                               VerticalAlignment="Center"
+                                               Margin="5,0"/>
+                                    
+                                    <TextBlock Grid.Column="2"
+                                               Text="{Binding Name}"
+                                               FontSize="12"
+                                               Foreground="#ECEFF4"
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+            
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="0"
+                        Content="Select All"
+                        Click="SelectAll_Click"
+                        Background="#4C566A"
+                        Foreground="#ECEFF4"
+                        Padding="10,5"
+                        BorderThickness="0"
+                        Margin="0,0,5,0"/>
+                
+                <Button Grid.Column="1"
+                        Content="Deselect All"
+                        Click="DeselectAll_Click"
+                        Background="#4C566A"
+                        Foreground="#ECEFF4"
+                        Padding="10,5"
+                        BorderThickness="0"
+                        Margin="5,0"/>
+                
+                <Button Grid.Column="3"
+                        Content="Files Only"
+                        Click="FilesOnly_Click"
+                        Background="#4C566A"
+                        Foreground="#ECEFF4"
+                        Padding="10,5"
+                        BorderThickness="0"
+                        Margin="5,0"/>
+                
+                <Button Grid.Column="4"
+                        Content="Folders Only"
+                        Click="FoldersOnly_Click"
+                        Background="#4C566A"
+                        Foreground="#ECEFF4"
+                        Padding="10,5"
+                        BorderThickness="0"
+                        Margin="5,0,0,0"/>
+            </Grid>
+        </Grid>
+        
+        <!-- Counters -->
+        <Grid Grid.Row="7" Margin="0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0"
+                       Text="{Binding ItemCounterText}"
+                       FontSize="12"
+                       Foreground="#ECEFF4"/>
+            
+            <TextBlock Grid.Column="1"
+                       Text="{Binding BatchLabelText}"
+                       FontSize="12"
+                       Foreground="#ECEFF4"/>
+        </Grid>
+        
+        <!-- Progress Bar -->
+        <ProgressBar Grid.Row="8"
+                     Value="{Binding ProcessedItems}"
+                     Maximum="{Binding TotalItems}"
+                     Height="15"
+                     Background="#3B4252"
+                     Foreground="#88C0D0"
+                     Margin="0,10"/>
+        
+        <!-- Status Label -->
+        <TextBlock Grid.Row="9"
+                   Text="{Binding StatusMessage}"
+                   FontSize="10"
+                   FontStyle="Italic"
+                   Foreground="#88C0D0"
+                   Margin="0,5"/>
+        
+        <!-- Log Area -->
+        <Grid Grid.Row="10" Margin="0,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0"
+                       Text="Git Operations Log:"
+                       FontSize="12"
+                       Foreground="#ECEFF4"
+                       Margin="0,0,0,5"/>
+            
+            <Border Grid.Row="1"
+                    Background="#3B4252"
+                    BorderBrush="#4C566A"
+                    BorderThickness="1">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBox x:Name="LogTextBox"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             FontFamily="Consolas"
+                             FontSize="10"
+                             Foreground="#ECEFF4"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             VerticalScrollBarVisibility="Auto"/>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+        
+        <!-- Loading Animation Area -->
+        <ContentControl x:Name="LoadingAnimation"
+                       Grid.Row="11"
+                       HorizontalAlignment="Center"
+                       Margin="0,10"
+                       Visibility="Collapsed"/>
+        
+        <!-- Start Button -->
+        <Button x:Name="StartButton"
+                Grid.Row="12"
+                Content="START GIT OPERATIONS"
+                Background="#5E81AC"
+                Foreground="#ECEFF4"
+                FontSize="14"
+                FontWeight="Bold"
+                Padding="20,10"
+                BorderThickness="0"
+                Click="StartOperations_Click"
+                HorizontalAlignment="Center"
+                Margin="0,20"/>
+        
+        <!-- Animation Canvas -->
+        <Grid Grid.Row="13">
+            <Canvas x:Name="AnimationCanvas"
+                    Background="#2E3440"/>
+            <TextBlock Text="© 2025 Created by Adithyanraj" 
+                       Foreground="#4C566A"
+                       FontSize="9"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Bottom"
+                       Margin="0,0,5,2"/>
+        </Grid>
+    </Grid>
+</Window>
