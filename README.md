@@ -4,7 +4,8 @@
 ![Platform: Windows](https://img.shields.io/badge/Platform-Windows-green.svg)
 ![.NET 6.0](https://img.shields.io/badge/.NET-6.0-purple.svg)
 
-A professional WPF application for automating Git operations, designed to streamline batch processing of files and folders for Git repositories. Thereby streamling Git operations when dealing with large file sets.This tool provides an elegant solution to common Git batch processing challenges.
+A professional WPF application for automating Git operations, designed to streamline batch processing of files and folders for Git repositories. Thereby streamling Git operations when dealing with large file sets.This tool provides an elegant solution to common Git batch processing challenges. 
+💻 **Download Now**: [GitAutomationTool v1.0.0](https://github.com/adithyanraj/GitAutomationTool/releases/tag/v1.0.0)
 
 <br>
 
