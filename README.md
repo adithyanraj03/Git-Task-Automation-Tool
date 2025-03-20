@@ -143,6 +143,37 @@ Advanced users can modify:
 - UI themes by editing XAML resources
 - Git command templates in the GitOperations.cs file
 
+
+## 🔍 Getting Started Guide
+
+### First-Time Setup
+
+1. **Select Source Folder**: Choose the folder containing files you want to add to Git
+2. **Select Git Repository**: Choose your target Git repository (or initialize a new one)
+3. **Choose Mode**: Select either Batch Mode or Full Folder Mode
+4. **Configure Settings**:
+   - For Batch Mode: Set batch size (recommended: 10-50 files per batch)
+   - Set your preferred commit message template
+
+### 📝Optimizing Performance
+
+For best results when working with large repositories:
+
+- Use batch sizes between 20-50 files for optimal performance
+- Enable selective processing to manage specific file types
+- Close other resource-intensive applications
+- Ensure stable network connection for push operations
+
+### Support and Feedback
+
+- Report issues on [GitHub Issues](https://github.com/adithyanraj03/Git-Task-Automation-Tool/issues)
+- Submit feature requests through the repository
+- Contact the developer at [email](adithyanraj03@gmail.com)
+
+### 👥 Contributors
+
+- **Adithyanraj** - Lead Developer and Designer
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
